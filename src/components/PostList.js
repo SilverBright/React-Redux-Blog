@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../actions/index.js';
+import UserHeader from './UserHeader.js';
 
 // Container component with state
 
@@ -19,6 +20,7 @@ class PostList extends React.Component {
               <h2>{post.title}</h2>
               <p>{post.body}</p>
             </div>
+            <UserHeader userId={post.userId} />
           </div>
         </div>
       );
