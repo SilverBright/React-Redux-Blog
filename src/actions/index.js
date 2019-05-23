@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import jsonPlaceholder from '../apis/jsonPlaceholder';
 
 // ACTION CREATORS with THUNK
@@ -21,16 +22,19 @@ export const fetchPosts = () =>
     });
   };
 
-  // FETCH A USER
+  // FETCH A USER with LODASH
+  // Lodash is a helped function that only fetches the id ONCE instead of multiple times. 
 
   // pass in the ID of the user we want to fetch
-  export const fetchUser = (id) => 
-    async dispatch => {
+  export const fetchUser = (id) => dispatch => {
+      _fetchUser(id, dispatch);
+  };
+    // const _fetchUser is a private function because it starts with an underscore
+    const _fetchUser = _.memoize(async (id, dispatch) => {
       const response = await jsonPlaceholder.get(`/users/${id}`);
 
     dispatch({ 
       type: 'FETCH_USER', 
       payload: response.data
     });
-  };
-
+  });

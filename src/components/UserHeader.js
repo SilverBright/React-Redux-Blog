@@ -20,7 +20,7 @@ class UserHeader extends React.Component {
     }
   }
 
-  // ownProps can reference props from within the component itself (we're grabbing the userId from componentDidMount)
+  // ownProps can reference props from within the component itself (we're using ownProps to grab the userId from componentDidMount)
 const mapStateToProps = (state, ownProps) => {
   return { user: state.users.find(user => user.id === ownProps.userId) };
 };
