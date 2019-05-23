@@ -5,12 +5,12 @@ import { fetchPosts } from '../actions/index.js';
 // Container component with state
 
 class PostList extends React.Component {
-
   componentDidMount() {
     this.props.fetchPosts();
   }
-  
+
   render() {
+    console.log(this.props.posts);
     return (
       <div>
         Post List
@@ -19,4 +19,9 @@ class PostList extends React.Component {
   }
 };
 
-export default connect(null, { fetchPosts} )(PostList);
+// state = posts
+const mapStateToProps = (state) => {
+  return { posts: state.posts };
+};
+
+export default connect(mapStateToProps, { fetchPosts})(PostList);

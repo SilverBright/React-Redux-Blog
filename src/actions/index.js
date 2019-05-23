@@ -14,6 +14,6 @@ export const fetchPosts = () =>
 
     dispatch({ 
       type: 'FETCH_POSTS', 
-      payload: response 
+      payload: response.data 
     });
   };
