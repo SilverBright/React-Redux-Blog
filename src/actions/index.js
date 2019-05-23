@@ -1,4 +1,4 @@
-// import _ from 'lodash';
+import _ from 'lodash';
 import jsonPlaceholder from '../apis/jsonPlaceholder';
 
 // ACTION CREATORS with THUNK and AXIOS
@@ -11,18 +11,20 @@ import jsonPlaceholder from '../apis/jsonPlaceholder';
 
   // FETCH POSTS AND USERS
 
-  export const fetchPostsAndUsers = () => async dispatch => {
-    console.log('about to fetch posts')
+  export const fetchPostsAndUsers = () => async (dispatch, getState) => {
+    // console.log('about to fetch posts')
     await dispatch(fetchPosts()); 
-    console.log('fetched posts')
+    // using lodash's uniqe and map functions to find unique user ids
+    const userIds = _.uniq(_.map(getState().posts, 'userId'));
+    // console.log(userIds)
+    userIds.forEach(id => dispatch(fetchUser(id)));
   };
 
   // FETCH POSTS
 
-export const fetchPosts = () => 
+export const fetchPosts = () =>  async dispatch => {
   // use a return function for thunk
   // below is an ES6 abbreviated function passing in dispatch
-   async dispatch => {
     const response = await jsonPlaceholder.get('/posts');
 
     dispatch({ 
@@ -31,10 +33,15 @@ export const fetchPosts = () =>
     });
   };
 
-  export const fetchUser = (id) =>
-    async dispatch => {
+  export const fetchUser = id => async dispatch => {
       const response = await jsonPlaceholder.get(`/users/${id}`);
+
+      dispatch({ 
+        type: 'FETCH_USER', 
+        payload: response.data
+      });
     };
+
 
   // FETCH A USER with LODASH
   // Lodash is a helper function that only fetches an id ONCE instead of multiple times. 
